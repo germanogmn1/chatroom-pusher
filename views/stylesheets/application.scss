@@ -1,0 +1,25 @@
+
+body {
+  width: 700px;
+  margin: 100px auto;
+  background: #eee;
+}
+
+#chat-log {
+	border: 1px solid #666;
+	background: #fff;
+	height: 400px;
+	overflow: auto;
+}
+
+#message-form {
+	input[type=text] {
+	  width: 590px;
+	}
+	
+	input[type=submit] {
+	  width: 100px;
+	  float: right;
+  }
+}
+
