@@ -7,20 +7,17 @@ Pusher.app_id = '8316'
 Pusher.key = '3c30d268802da61414b2'
 Pusher.secret = '3a742740f24b5d3820c7'
 
+enable :logging
+
 get '/' do
   erb :index
 end
 
-post '/new_message' do
-  Pusher['messaging'].trigger('new_message', params.to_json)
-end
-
-post '/client_in' do
-  Pusher['messaging'].trigger('client_in', params.to_json)
-end
-
-post '/client_out' do
-  Pusher['messaging'].trigger('client_out', params.to_json)
+post '/push/*/*' do |channel, event|
+  params.delete("splat") # remove url matches from params
+  Pusher[channel].trigger event, params.to_json
+  # debug
+  puts "Pusher: pushed to [#{channel}] event [#{event}] with [#{params.to_json}]"
 end
 
 get '/stylesheets/:file.css' do

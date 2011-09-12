@@ -14,12 +14,9 @@ body {
 
 #message-form {
   input[type=text] {
-    width: 590px;
-  }
-
-  input[type=submit] {
-    width: 100px;
-    float: right;
+    padding: 5px;
+    border-width: 1px;
+    width: 688px;
   }
 }
 

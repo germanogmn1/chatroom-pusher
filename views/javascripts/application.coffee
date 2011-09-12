@@ -2,29 +2,32 @@ class Client
   constructor: (@nickname) ->
     
   enter: ->
-    $.post "client_in", nickname: @nickname
+    this.push "enter", nickname: @nickname
     
   exit: ->
-    $.post "client_out", nickname: @nickname
+    this.push "exit", nickname: @nickname
   
   message: (message) ->
-    $.post "new_message", nickname: @nickname, message: message
+    this.push "message", nickname: @nickname, message: message
+    
+  push: (event, params) ->
+    $.post "push/messaging/#{event}", params
 
 Logger =
   log: (message) ->
-    $("#chat-log").append(message + "\n")
+    $("#chat-log").append(message + "<br />")
 
 # Pusher events
 pusher = new Pusher "3c30d268802da61414b2"
 channel = pusher.subscribe "messaging"
 
-channel.bind "new_message", (data) ->
+channel.bind "message", (data) ->
   Logger.log "<strong>#{data.nickname}:</strong> #{data.message}";
 
-channel.bind "client_in", (data) ->
+channel.bind "enter", (data) ->
   Logger.log "<em>* <strong>#{data.nickname}</strong> entrou</em>"
 
-channel.bind "client_out", (data) ->
+channel.bind "exit", (data) ->
   Logger.log "<em>* <strong>#{data.nickname}</strong> saiu</em>"
 
 
